@@ -108,7 +108,7 @@ class PTBModel(object):
         # Slightly better results can be obtained with forget gate biases
         # initialized to 1 but the hyperparameters of the model would need to be
         # different than reported in the paper.
-        GRU_cell = rnn_cell.GRUCell(num_units=size, state_is_tuple=True)
+        GRU_cell = rnn_cell.GRUCell(num_units=size)
         if is_training and config.keep_prob < 1:
             GRU_cell = tf.nn.rnn_cell.DropoutWrapper(
                     GRU_cell, output_keep_prob=config.keep_prob)
@@ -279,9 +279,8 @@ def run_epoch(session, model, eval_op=None, verbose=False):
 
     for step in range(model.input.epoch_size):
         feed_dict = {}
-        for i, (c, h) in enumerate(model.initial_state):
-            feed_dict[c] = state[i].c
-            feed_dict[h] = state[i].h
+        for i, h in enumerate(model.initial_state):
+            feed_dict[h] = state[i]
 
         vals = session.run(fetches, feed_dict)
         cost = vals["cost"]
