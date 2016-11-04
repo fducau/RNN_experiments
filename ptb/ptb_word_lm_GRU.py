@@ -108,17 +108,12 @@ class PTBModel(object):
         # Slightly better results can be obtained with forget gate biases
         # initialized to 1 but the hyperparameters of the model would need to be
         # different than reported in the paper.
-        GRU_cell = rnn_cell.BasicLSTMCell(num_units=size, forget_bias=0.0, state_is_tuple=True)
+        GRU_cell = rnn_cell.GRUCell(num_units=size, state_is_tuple=True)
         if is_training and config.keep_prob < 1:
             GRU_cell = tf.nn.rnn_cell.DropoutWrapper(
                     GRU_cell, output_keep_prob=config.keep_prob)
         cell = tf.nn.rnn_cell.MultiRNNCell([GRU_cell] * config.num_layers, state_is_tuple=True)
         
-        #lstm_cell = rnn_cell.BasicLSTMCell(size, forget_bias=0.0, state_is_tuple=True)
-        #if is_training and config.keep_prob < 1:
-        #    lstm_cell = tf.nn.rnn_cell.DropoutWrapper(
-        #        lstm_cell, output_keep_prob=config.keep_prob)
-        #cell = tf.nn.rnn_cell.MultiRNNCell([lstm_cell] * config.num_layers, state_is_tuple=True)
 
 
         self._initial_state = cell.zero_state(batch_size, data_type())
