@@ -45,6 +45,8 @@ from __future__ import print_function
 import collections
 import math
 
+import tensorflow as tf
+
 from tensorflow.python.framework import ops
 from tensorflow.python.framework import tensor_shape
 from tensorflow.python.ops import array_ops

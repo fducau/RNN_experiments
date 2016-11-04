@@ -60,7 +60,7 @@ import time
 
 import numpy as np
 import tensorflow as tf
-import rnn_cell_2
+import rnn_cell_2 as rnn_cell
 import reader
 
 flags = tf.flags
